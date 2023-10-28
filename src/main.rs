@@ -1,14 +1,15 @@
-extern crate rocket;
+// import Rocket
+#[macro_use] extern crate rocket;
 
-use rocket::{serde::json::Json, State};
-use rocket::fairing::AdHoc;
-use rocket::tokio::sync::RwLock;
-use serde::{Deserialize, Serialize};
+// this is our get route which will be requested at the "/" location wherever it is mounted
+#[get("/")]
+fn say_hello() -> &'static str {
+  "Hello, welcome to the api!"
+}
 
-struct Asset {
-    id: u64,
-    asset_code: String,
-    description: String,
-    location: String,
-    cost: u16,
+// start the web server and mount our get route at "/api". Can replace /api with anything
+// or just leave it as "/" as the default location
+#[launch]
+fn rocket() -> _ {
+  rocket::build().mount("/api", routes![say_hello])
 }
